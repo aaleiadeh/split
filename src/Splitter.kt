@@ -8,13 +8,13 @@ enum class DiscordTier(val size: Double) {
 }
 
 fun split(fileName: String) {
-    val file = File("temp/$fileName")
+    val file = File(fileName)
     val content = file.readBytes()
     val chunkSize = ceil(1024 * 1024 * DiscordTier.FREE.size).toInt()
     var current = 0
     var filePart: File
     var part = 0
-    val directory = File("temp/${fileName}_split")
+    val directory = File("${fileName}_split")
     if (!directory.exists()) {
         directory.mkdir()
     }
@@ -31,12 +31,12 @@ fun split(fileName: String) {
 }
 
 fun combine(dirName: String) {
-    val dir = File("temp/$dirName")
+    val dir = File(dirName)
     val files = dir.listFiles().sortedBy {
         file -> file.name.split(".")[2].substring(4).toInt()
     }
     val extension = files[0].name.split(".")[1]
-    val recombined = File("temp/recombined.$extension")
+    val recombined = File("recombined.$extension")
     if (recombined.exists()) {
         recombined.delete()
     }
